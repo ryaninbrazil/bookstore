@@ -3,6 +3,8 @@ const app = express();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
+const Genres = require(./modules/genre); 
+
 // Connect to Mongoose
 mongoose.connect('mongodb://localhost/bookstore', {
   useMongoClient: true,
@@ -14,7 +16,12 @@ app.get('/', function(req, res) {
 });
 
 app.get('/api/genres', function(req, res) {
-  
+  Genres.getGenres(function(err, genres) {
+    if (err) {
+      throw err;
+    }
+    res.json(genres);
+  })
 })
 
 app.listen(3000);
